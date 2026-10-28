@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}MockLab{% endblock %}</title>
+<style>
+  :root{--bg:#0f1420;--panel:#19202e;--line:#2a3344;--ink:#eef2fb;--muted:#9aa6be;
+    --brand:#5aa0ff;--ok:#56d97f;--bad:#ff6b7a;--r:10px}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.5}
+  .wrap{max-width:720px;margin:0 auto;padding:24px 16px}
+  .top{display:flex;justify-content:space-between;align-items:center;
+    padding:14px 16px;border-bottom:1px solid var(--line);background:var(--panel)}
+  .top a{color:var(--ink);text-decoration:none;font-size:14px;margin-left:16px}
+  .brand{font-weight:700}.brand b{color:var(--brand)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+    padding:18px;margin-bottom:14px}
+  h1{font-size:22px;margin:0 0 14px}h2{font-size:17px;margin:0 0 10px}
+  label{display:block;font-size:13px;color:var(--muted);margin:10px 0 5px}
+  input[type=text],input[type=password]{width:100%;padding:11px;border-radius:9px;
+    border:1px solid var(--line);background:#111726;color:var(--ink);font-size:15px}
+  button,.btn{background:var(--brand);color:#06101f;border:0;border-radius:9px;
+    padding:11px 18px;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;
+    display:inline-block}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .flash{background:#2a2140;border:1px solid #4a3a6a;color:#e9d9ff;padding:10px 13px;
+    border-radius:9px;margin-bottom:12px;font-size:14px}
+  .muted{color:var(--muted);font-size:14px}
+  .pill{font-size:11px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+  .pill.paid{color:#ffd27a;border-color:#5a4a2a}
+  .row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  a{color:var(--brand)}
+</style>
+</head>
+<body>
+<div class="top">
+  <span class="brand">Mock<b>Lab</b></span>
+  <nav>
+    {% if session.get('uid') %}
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('logout') }}">Log out</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Log in</a>
+      <a href="{{ url_for('register') }}">Register</a>
+    {% endif %}
+  </nav>
+</div>
+<div class="wrap">
+  {% with msgs = get_flashed_messages() %}
+    {% for m in msgs %}<div class="flash">{{ m }}</div>{% endfor %}
+  {% endwith %}
+  {% block body %}{% endblock %}
+</div>
+</body>
+</html>

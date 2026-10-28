@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — MockLab{% endblock %}
+{% block body %}
+<div class="card">
+  <div class="row">
+    <h1 style="margin:0">Hi, {{ user['username'] }}</h1>
+    <span class="pill {{ 'paid' if user['paid'] else '' }}">
+      {{ 'Paid access' if user['paid'] else 'Free account' }}</span>
+  </div>
+  {% if not user['paid'] %}
+    <p class="muted">Paid exams are locked. (For testing, simulate a payment below.)</p>
+    <form method="post" action="{{ url_for('simulate_pay') }}">
+      <button class="btn ghost" type="submit">Simulate payment →</button>
+    </form>
+  {% endif %}
+</div>
+
+<div class="card">
+  <h2>Exams</h2>
+  {% for e in exams %}
+    <div class="row" style="padding:10px 0;border-top:1px solid var(--line)">
+      <div>
+        <div>{{ e.title }}
+          <span class="pill {{ 'paid' if e.paid else '' }}">
+            {{ 'Paid' if e.paid else 'Free' }}</span></div>
+        <div class="muted">{{ e.n }} questions</div>
+      </div>
+      <a class="btn" href="{{ url_for('quiz', exam_id=e.id) }}">Start</a>
+    </div>
+  {% endfor %}
+</div>
+
+{% if results %}
+<div class="card">
+  <h2>Your recent results</h2>
+  {% for r in results %}
+    <div class="row" style="padding:8px 0;border-top:1px solid var(--line)">
+      <span class="muted">{{ r['exam'] }} · {{ r['taken_at'] }}</span>
+      <a href="{{ url_for('result', result_id=r['id']) }}">{{ r['score'] }}/{{ r['total'] }}</a>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

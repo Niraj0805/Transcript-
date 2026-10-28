@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Result — MockLab{% endblock %}
+{% block body %}
+<div class="card">
+  <h1>Result: {{ row['score'] }} / {{ row['total'] }}</h1>
+  <p class="muted">{{ title }} · taken {{ row['taken_at'] }}</p>
+  <a class="btn ghost" href="{{ url_for('dashboard') }}">Back to dashboard</a>
+</div>
+{% if review %}
+<div class="card">
+  <h2>Answer key &amp; explanations</h2>
+  <p class="muted">Shown only after the attempt is submitted.</p>
+  {% for q in review %}
+    <div style="padding:10px 0;border-top:1px solid var(--line)">
+      <div><b>Q{{ loop.index }}.</b> {{ q.q }}</div>
+      <div style="color:var(--ok);margin-top:4px">✓ {{ q.options[q.answer] }}</div>
+      <div class="muted" style="margin-top:3px">{{ q.why }}</div>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

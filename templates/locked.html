@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Locked — MockLab{% endblock %}
+{% block body %}
+<div class="card">
+  <h1>🔒 Paid exam</h1>
+  <p class="muted">“{{ exam.title }}” requires a paid account. This page returns
+     HTTP 403 and never sends the questions until you have access — that's the
+     authorization gate working.</p>
+  <a class="btn" href="{{ url_for('dashboard') }}">Back to dashboard</a>
+</div>
+{% endblock %}
